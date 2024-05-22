@@ -3,51 +3,34 @@
 #include "led.h"
 
 
-void Delay(unsigned int uiMiliSec) 
-{
-	unsigned int uiLoopCtr, uiDelayLoopCount;
-	uiDelayLoopCount = uiMiliSec*12000;
-	for(uiLoopCtr=0;uiLoopCtr<uiDelayLoopCount;uiLoopCtr++){}
-}
-
-
-typedef struct sSystemData 
-{
-	unsigned char ucBlinkingFreq;
-	unsigned char ucBlinkingLed;
-}sSystemData;
+xTaskHandle xLedBlink = NULL;
 
 
 void LedBlink( void *pvParameters )
 {
-	sSystemData * psSystemData = (sSystemData *)pvParameters;
 	
 	while(1)
 	{
-		Led_Toggle(psSystemData->ucBlinkingLed);
-		vTaskDelay((1000/(psSystemData->ucBlinkingFreq))/2);
+		Led_Toggle(0);
+		vTaskDelay((1000/5)/2);
 	}
 }
 
 
-
 void LedCtrl( void *pvParameters )
 {
-	sSystemData * psSystemData = (sSystemData*)pvParameters;
-	static unsigned char ucCtr = 1;
+	static unsigned char ucCtr = 0;
 	
 	while(1)
 	{
 		if(ucCtr % 2 == 0)
 		{
-			(psSystemData->ucBlinkingLed)++;
-			if(psSystemData->ucBlinkingLed == 4)
-			{
-				psSystemData->ucBlinkingLed = 0;
-			}
+			vTaskSuspend(xLedBlink);
 		}
-		
-		(psSystemData->ucBlinkingFreq)++;
+		else
+		{
+			vTaskResume(xLedBlink);
+		}
 		
 		ucCtr++;
 		vTaskDelay(1000);
@@ -58,11 +41,9 @@ void LedCtrl( void *pvParameters )
 
 int main( void )
 {
-	sSystemData myData = {1, 0};
-	
 	Led_Init();
-	xTaskCreate(LedBlink, NULL , 100 , &myData, 2 , NULL );
-	xTaskCreate(LedCtrl, NULL , 100 , &myData, 2 , NULL );
+	xTaskCreate(LedBlink, NULL , 100 , NULL, 2 , &xLedBlink);
+	xTaskCreate(LedCtrl, NULL , 100 , NULL, 2 , NULL);
 	vTaskStartScheduler();
 	while(1);
 }
