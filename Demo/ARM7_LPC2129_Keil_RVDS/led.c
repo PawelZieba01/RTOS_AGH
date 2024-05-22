@@ -10,7 +10,7 @@
 void Led_Init(void)
 {
 	IO1DIR |= LED0_bm | LED1_bm | LED2_bm | LED3_bm;
-	IO1SET = LED0_bm;
+	//IO1SET = LED0_bm;
 }
 
 
@@ -37,7 +37,8 @@ void LedOn(unsigned char ucLedIndeks)
 
 void Led_Toggle(unsigned char ucLedIndeks)
 {
-		switch(ucLedIndeks)
+	
+	switch(ucLedIndeks)
 	{
 		case 0:
             if(IO1SET & LED0_bm)
