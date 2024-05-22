@@ -32,6 +32,8 @@ void LedOn(unsigned char ucLedIndeks)
 		case 3:
             IO1SET = LED3_bm;
             break;
+		default:
+						break;
 	}
 }
 
