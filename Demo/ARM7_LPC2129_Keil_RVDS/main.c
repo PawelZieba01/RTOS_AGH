@@ -28,7 +28,7 @@ void Rtos_Transmiter_SendString(void *pvParameters)
 			Transmiter_SendString(xMessage.cString);
 			while (eTransmiter_GetStatus()!=FREE){};
 		}
-		vTaskDelay(300);
+		vTaskDelay(100);
 	}
 }
 
@@ -45,7 +45,10 @@ void LettersTx (void *pvParameters){
 		AppendString("\n", xMessage.cString);
 		
 		uiStartTime = xTaskGetTickCount();
-		xQueueSend(xUartQueue, xMessage.cString, portMAX_DELAY);
+		if(xQueueSend(xUartQueue, &xMessage, 300) == errQUEUE_FULL)
+		{
+			Led_Toggle(0);
+		}
 		uiStopTime = xTaskGetTickCount();
 		
 		uiTime = uiStopTime - uiStartTime;
@@ -59,9 +62,9 @@ void KeyboardTx (void *pvParameters){
 		if(eKeyboardRead() != RELASED)
 		{
 			tMessage xMessage = {"-Keyboard-\n"};
-			xQueueSend(xUartQueue, &xMessage, portMAX_DELAY);
+			xQueueSend(xUartQueue, &xMessage, 300);
 		}
-		vTaskDelay(300);
+		vTaskDelay(100);
 	}
 }
 
@@ -70,6 +73,7 @@ void KeyboardTx (void *pvParameters){
 int main( void ){
 	UART_InitWithInt(300);
 	KeyboardInit();
+	Led_Init();
 	
 	xUartQueue = xQueueCreate(5, sizeof(tMessage));
 	
