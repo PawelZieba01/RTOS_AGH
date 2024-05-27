@@ -8,6 +8,8 @@
 
 xSemaphoreHandle xSemaphore;
 
+unsigned int uiTime = 0;
+
 void Rtos_Transmiter_SendString (char cString[])
 {		
 	xSemaphoreTake(xSemaphore, portMAX_DELAY);
@@ -21,17 +23,18 @@ void Rtos_Transmiter_SendString (char cString[])
 void LettersTx (void *pvParameters){
 	while(1)
 	{
-		char cTimeString[16];
+		char cTimeString[16] = "-ABCDEEFGH-:";
 		unsigned long uiStartTime; 
 		unsigned long uiStopTime;
 		
+		AppendUIntToString(uiTime, cTimeString);
+		AppendString("\n", cTimeString);
+		
 		uiStartTime = xTaskGetTickCount();
-		Rtos_Transmiter_SendString("-ABCDEEFGH-\n");
+		Rtos_Transmiter_SendString(cTimeString);
 		uiStopTime = xTaskGetTickCount();
 		
-		UIntToString((unsigned int)(uiStopTime-uiStartTime), cTimeString);
-		AppendString("\n", cTimeString);
-		Rtos_Transmiter_SendString(cTimeString);
+		uiTime = uiStopTime - uiStartTime;
 		
 		vTaskDelay(300);
 	}

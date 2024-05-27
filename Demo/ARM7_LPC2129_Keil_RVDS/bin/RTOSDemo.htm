@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\bin\RTOSDemo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\bin\RTOSDemo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Fri May 24 20:04:22 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Mon May 27 18:12:45 2024
 <BR><P>
 <H3>Maximum Stack Usage =        152 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -202,14 +202,14 @@ Global Symbols
 <LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
-<P><STRONG><a name="[c]"></a>LettersTx</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[c]"></a>LettersTx</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 116 + Unknown Stack Size
 <LI>Call Chain = LettersTx &rArr; Rtos_Transmiter_SendString &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
-<BR>[Calls]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
 <LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
-<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UIntToString
-<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
+<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rtos_Transmiter_SendString
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
@@ -240,12 +240,12 @@ Global Symbols
 <P><STRONG><a name="[31]"></a>CopyString</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, string.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reciever_GetStringCopy
 <LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Transmiter_SendString
-<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
 </UL>
 
 <P><STRONG><a name="[ab]"></a>eCompareString</STRONG> (Thumb, 50 bytes, Stack size 4 bytes, string.o(.text), UNUSED)
 
-<P><STRONG><a name="[29]"></a>AppendString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
+<P><STRONG><a name="[28]"></a>AppendString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = AppendString
 </UL>
 <BR>[Calls]<UL><LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
@@ -255,17 +255,20 @@ Global Symbols
 
 <P><STRONG><a name="[ac]"></a>ReplaceCharactersInString</STRONG> (Thumb, 32 bytes, Stack size 4 bytes, string.o(.text), UNUSED)
 
-<P><STRONG><a name="[28]"></a>UIntToString</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, string.o(.text))
+<P><STRONG><a name="[32]"></a>UIntToString</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, string.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = UIntToString
 </UL>
-<BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
 </UL>
 
 <P><STRONG><a name="[ad]"></a>eHexStringToUInt</STRONG> (Thumb, 118 bytes, Stack size 8 bytes, string.o(.text), UNUSED)
 
-<P><STRONG><a name="[32]"></a>AppendUIntToString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UIntToString
+<P><STRONG><a name="[27]"></a>AppendUIntToString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = AppendUIntToString &rArr; UIntToString
+</UL>
+<BR>[Calls]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UIntToString
+</UL>
+<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
 <P><STRONG><a name="[25]"></a>eTransmiter_GetStatus</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, uart.o(.text))
@@ -460,7 +463,7 @@ Global Symbols
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_disable_irq (via Veneer)
 </UL>
 
-<P><STRONG><a name="[27]"></a>xTaskGetTickCount</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, tasks.o(.text))
+<P><STRONG><a name="[29]"></a>xTaskGetTickCount</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, tasks.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = xTaskGetTickCount &rArr; vPortExitCritical
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
@@ -804,7 +807,7 @@ Global Symbols
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
-<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -838,7 +841,7 @@ Global Symbols
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
-<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
